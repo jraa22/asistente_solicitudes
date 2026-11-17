@@ -1,0 +1,4 @@
+.venv/
+salidas/
+__pycache__/
+*.pyc

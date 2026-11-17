@@ -211,6 +211,7 @@ class ChatbotSolicitudes:
         self.fallos = 0
         self.ultima_intencion = ""
         self.ultimo_score = 0.0
+        self.umbral = UMBRAL                # la v2 (ML) lo sustituye por un umbral de probabilidad
 
     # -- clasificacion de intencion ------------------------------------------
     def clasificar(self, mensaje: str) -> tuple[str, float, list[int], str | None]:
@@ -233,7 +234,7 @@ class ChatbotSolicitudes:
     def responder(self, mensaje: str) -> str:
         nombre, score, ids, email = self.clasificar(mensaje)
         self.ultima_intencion, self.ultimo_score = nombre, score
-        if score < UMBRAL:
+        if score < self.umbral:
             self.ultima_intencion = "fallback"
             self.fallos += 1
             if self.fallos >= 2:
